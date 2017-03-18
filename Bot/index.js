@@ -3,8 +3,8 @@ var builder = require('botbuilder');
 
 // Create bot and add dialogs
 var connector = new builder.ChatConnector({
-    appId: "YourAppId",
-    appPassword: "YourAppSecret"
+    appId: "44126538-1649-4331-ae87-7c6fee6c4bb3",
+    appPassword: "OgAE5bXq6knVGHMBqeGxUms"
 });
 var bot = new builder.UniversalBot(connector);  
 bot.dialog('/', function (session) {
