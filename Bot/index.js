@@ -74,8 +74,6 @@ var bot = new builder.UniversalBot(connector, [
     	responses.push(results.response)
         builder.Prompts.choice(session, questions[8],  answers[1]);
     },
-    
-    
     function (session, results) {
     	responses.push(results.response)
         builder.Prompts.choice(session, questions[9],  answers[0]);
