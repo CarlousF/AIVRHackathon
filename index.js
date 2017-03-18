@@ -119,7 +119,7 @@ var bot = new builder.UniversalBot(connector, [
 
 // Setup Restify Server
 var server = restify.createServer();
-server.post('/api/messages', connector.listen());
+server.post('/', connector.listen());
 server.listen(process.env.port || 3978, function () {
     console.log('%s listening to %s', server.name, server.url); 
 }); 
