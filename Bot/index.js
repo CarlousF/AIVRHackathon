@@ -5,8 +5,8 @@ var annswerArray = []
 
 // Create bot and add dialogs
 var connector = new builder.ChatConnector({
-    appId: "2446e7a3-11af-454f-a9d9-85d310226b0a",
-    appPassword: "SOHao3qnA2qgjYjaBkGVAma"
+    appId: "44126538-1649-4331-ae87-7c6fee6c4bb3",
+    appPassword: "GvHFeg80KeRpdOWYfXm4DiA"
 });
 
 var questions = [
