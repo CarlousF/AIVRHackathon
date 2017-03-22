@@ -8,9 +8,7 @@ using SimpleJSON;
 public class Questions : MonoBehaviour {
 
     public static string ConversationId = "";
-
     public static bool answerReceived = false;
-
     public static string BotId = "VRARBot";
 
     // 1
@@ -36,6 +34,9 @@ public class Questions : MonoBehaviour {
                 Debug.Log("Conversation Started.");
                 answerReceived = true;
                 ConversationId = e.ConversationId;
+
+                StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+                    ConversationId, "UnityUserId", "Start", "Unity User 1"));
                 break;
             case Assets.BotDirectLine.EventTypes.MessageSent:
                 Debug.Log("Message sent..");
@@ -49,7 +50,7 @@ public class Questions : MonoBehaviour {
             case Assets.BotDirectLine.EventTypes.MessageReceived:
                 // Handle the received message(s)
                 Debug.Log("Message received");
-                if(e.Messages.Count > 0){
+                if(e.Messages.Count > 1){
                     Debug.Log("OnBotResponse: " + e.ToString());
 
                     JSONNode ResObject;
@@ -71,6 +72,9 @@ public class Questions : MonoBehaviour {
                         }
                     }
 
+                } else {
+                    // StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+                    //     ConversationId, "UnityUserId", "Start", "Unity User 1"));
                 }
                 
                 break;
