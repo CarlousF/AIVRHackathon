@@ -1,8 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Timers;
+using System.Threading;
+using SimpleJSON;
 
 public class Questions : MonoBehaviour {
+
+    public static string ConversationId = "";
+
+    public static bool answerReceived = false;
+
+    public static string BotId = "VRARBot";
 
     // 1
     private SteamVR_TrackedObject trackedObj;
@@ -17,14 +26,77 @@ public class Questions : MonoBehaviour {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
 
+    private void OnBotResponse(object sender, Assets.BotDirectLine.BotResponseEventArgs e)
+    {
+
+        switch (e.EventType)
+        {
+            case Assets.BotDirectLine.EventTypes.ConversationStarted:
+                // Store the ID
+                Debug.Log("Conversation Started.");
+                answerReceived = true;
+                ConversationId = e.ConversationId;
+                break;
+            case Assets.BotDirectLine.EventTypes.MessageSent:
+                Debug.Log("Message sent..");
+                if (!string.IsNullOrEmpty(ConversationId))
+                {
+                    // Get the bot's response(s)
+                    StartCoroutine(BotDirectLineManager.Instance.GetMessagesCoroutine(ConversationId));
+                }
+
+                break;
+            case Assets.BotDirectLine.EventTypes.MessageReceived:
+                // Handle the received message(s)
+                Debug.Log("Message received");
+                if(e.Messages.Count > 0){
+                    Debug.Log("OnBotResponse: " + e.ToString());
+
+                    JSONNode ResObject;
+                    JSONNode FromObject;
+                    string fromId;
+
+                     for (int L = e.Messages.Count-1; L > 0; L--)
+                    {
+                        ResObject = JSON.Parse((e.Messages[L]).ToString());
+
+                        FromObject = JSON.Parse(ResObject["from"].ToString());
+                        fromId = FromObject["id"];
+                        Debug.Log("from is: "+fromId);
+
+                        if(fromId == BotId){
+                            Debug.Log("Latest message from  Bot: " + ResObject["text"]);
+                            setQuestionNameAndAnswers(ResObject["text"]);
+                            break;
+                        }
+                    }
+
+                }
+                
+                break;
+            case Assets.BotDirectLine.EventTypes.Error:
+                // Handle the error
+                break;
+        }
+    }
 
     public GameObject questionText;
     public int healthScore = 0;
     public int questionNumber;
 
+    void setQuestionNameAndAnswers(string newName)
+    {
+
+        string[] splitArray = newName.Split('1');
+        string theQuestion = splitArray[0];
+
+        questionText = GameObject.Find("Question Text");
+        questionText.GetComponent<TextMesh>().text = theQuestion;
+    }
+
     void setQuestion(int question)
     {
-        //questionText = GameObject.Find("Question Text");
+        questionText = GameObject.Find("Question Text");
         switch (question)
         {
             case 1:
@@ -57,8 +129,6 @@ public class Questions : MonoBehaviour {
                 
                 break;
         }
-        
-        //Debug.Log("Q1");
     }
 
     string CheckForHit()
@@ -106,17 +176,30 @@ public class Questions : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Debug.Log("Starting.");
         questionNumber = 1;
         setQuestion(questionNumber);
         questionNumber++;
+
+        //Initilise the ChatBot with the secret Key
+        BotDirectLineManager.Initialize("acpdzbZb2Oc.cwA.TB0.6a3lFLDlLNV_RMvX4uB8sm9vGsbXaOU7BIA6N1uyiws");
+        //Ensure onBotResponse function is called when a response is received
+        BotDirectLineManager.Instance.BotResponse += OnBotResponse;
+
+        //Start the conversation.
+        StartCoroutine(BotDirectLineManager.Instance.StartConversationCoroutine());
+
     }
-	
+
 	// Update is called once per frame
-	void Update () {
-        // 2
-        if (Controller.GetHairTriggerUp())
-        {
-            CheckIfAnsweredQuestion();
+	void Update () { 
+        //HERE TO SIMULATE USER SELECTING OPTION AT THE MOMENT.
+        if (Input.GetKeyDown("space")){
+            print("space key was pressed");
+            //CHANGE 3RD OPTION TO THE OPTION SELECTED BY THE USER.
+            StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+                ConversationId, "UnityUserId", "1", "Unity User 1"));
         }
     }
+    
 }

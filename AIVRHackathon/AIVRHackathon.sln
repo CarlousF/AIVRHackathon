@@ -1,13 +1,13 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{3A337C31-7939-214A-13BC-FC9379E25C37}") = "AIVRHackathon", "Assembly-CSharp-firstpass.csproj", "{D704426F-DDB9-E138-D74C-49BB45E9023E}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIVRHackathon", "Assembly-CSharp-firstpass.csproj", "{D704426F-DDB9-E138-D74C-49BB45E9023E}"
 EndProject
-Project("{3A337C31-7939-214A-13BC-FC9379E25C37}") = "AIVRHackathon", "Assembly-CSharp.csproj", "{CADFFB1F-06FB-53FB-2912-F125BAC64667}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIVRHackathon", "Assembly-CSharp.csproj", "{CADFFB1F-06FB-53FB-2912-F125BAC64667}"
 EndProject
-Project("{3A337C31-7939-214A-13BC-FC9379E25C37}") = "AIVRHackathon", "Assembly-CSharp-Editor-firstpass.csproj", "{9946058A-3584-ECE0-DAC8-AB877497BA6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIVRHackathon", "Assembly-CSharp-Editor-firstpass.csproj", "{9946058A-3584-ECE0-DAC8-AB877497BA6F}"
 EndProject
-Project("{3A337C31-7939-214A-13BC-FC9379E25C37}") = "AIVRHackathon", "Assembly-CSharp-Editor.csproj", "{184AF691-F6AF-372F-7A1F-6EF17449459C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIVRHackathon", "Assembly-CSharp-Editor.csproj", "{184AF691-F6AF-372F-7A1F-6EF17449459C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

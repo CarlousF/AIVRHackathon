@@ -17,18 +17,55 @@ using System.Linq;
 
 public class Chatbot : MonoBehaviour {
 
-    //BotDirectLineManager.Initialize("acpdzbZb2Oc.cwA.TB0.6a3lFLDlLNV_RMvX4uB8sm9vGsbXaOU7BIA6N1uyiws");
-    //BotDirectLineManager.Instance.BotResponse += OnBotResponse;
+    public int CurrentQuestion = 0;
 
 	// Use this for initialization
 	void Start () {
-		
+        //Initialise bot line manger with secret token.
+	    BotDirectLineManager.Initialize("acpdzbZb2Oc.cwA.TB0.6a3lFLDlLNV_RMvX4uB8sm9vGsbXaOU7BIA6N1uyiws");
+        BotDirectLineManager.Instance.BotResponse += OnBotResponse;
+
+        StartCoroutine(BotDirectLineManager.Instance.StartConversationCoroutine());
+
+        StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+            _conversationState.ConversationId, "UnityUserId", "Hello!", "Unity User 1"));
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    void onButtonClick(){
+        StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+            _conversationState.ConversationId, "UnityUserId", "Hello bot!", "Unity User 1"));
+    }
+
+    private void OnBotResponse(object sender, Assets.BotDirectLine.BotResponseEventArgs e){
+        Debug.Log("OnBotResponse: " + e.ToString());
+
+        switch (e.EventType)
+        {
+            case EventTypes.ConversationStarted:
+                // Store the ID
+                _conversationState.ConversationId = e.ConversationId;
+                break;
+            case EventTypes.MessageSent:
+                if (!string.IsNullOrEmpty(_conversationState.ConversationId))
+                {
+                    // Get the bot's response(s)
+                    StartCoroutine(BotDirectLineManager.Instance.GetMessagesCoroutine(_conversationState.ConversationId));
+                }
+
+                break;
+            case EventTypes.MessageReceived:
+                // Handle the received message(s)
+                break;
+            case EventTypes.Error:
+                // Handle the error
+                break;
+        }
+    }
 }
 
 
