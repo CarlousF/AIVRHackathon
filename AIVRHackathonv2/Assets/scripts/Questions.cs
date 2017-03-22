@@ -10,6 +10,7 @@ public class Questions : MonoBehaviour {
     public static string ConversationId = "";
     public static bool answerReceived = false;
     public static string BotId = "VRARBot";
+    public static int totalResponses = 0;
 
     // 1
     private SteamVR_TrackedObject trackedObj;
@@ -49,7 +50,16 @@ public class Questions : MonoBehaviour {
                 break;
             case Assets.BotDirectLine.EventTypes.MessageReceived:
                 // Handle the received message(s)
+
+                //Grab the First Question.
+                if (totalResponses < 2){
+                    StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+                        ConversationId, "UnityUserId", "1", "Unity User 1"));
+                }
+
                 Debug.Log("Message received");
+                totalResponses++;
+                Debug.Log("Total responses for far: "+totalResponses);
                 if(e.Messages.Count > 1){
                     Debug.Log("OnBotResponse: " + e.ToString());
 
