@@ -52,7 +52,7 @@ public class Questions : MonoBehaviour {
                 // Handle the received message(s)
 
                 //Grab the First Question.
-                if (totalResponses < 2){
+                if (totalResponses < 1){
                     StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
                         ConversationId, "UnityUserId", "1", "Unity User 1"));
                 }
@@ -163,37 +163,58 @@ public class Questions : MonoBehaviour {
         //if any of the 4 answer boxs hit, load next question, incriment question number and record designated health score
         if (CheckForHit() == "A1")
         {
-            setQuestion(questionNumber);
+            //setQuestion(questionNumber);
             questionNumber++;
+            //CHANGE 3RD OPTION TO THE OPTION SELECTED BY THE USER.
+            StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+            ConversationId, "UnityUserId", "1", "Unity User 1"));
             healthScore = healthScore + 1;
         }
         else if(CheckForHit() == "A2")
         {
-            setQuestion(questionNumber);
+            //setQuestion(questionNumber);
             questionNumber++;
+            StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+            ConversationId, "UnityUserId", "1", "Unity User 1"));
             healthScore = healthScore + 2;
         }
         else if(CheckForHit() == "A3")
         {
-            setQuestion(questionNumber);
+            //setQuestion(questionNumber);
             questionNumber++;
+            StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+            ConversationId, "UnityUserId", "1", "Unity User 1"));
             healthScore = healthScore + 3;
         }
         else if (CheckForHit() == "A4")
         {
-            setQuestion(questionNumber);
+            //setQuestion(questionNumber);
             questionNumber++;
+            StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
+            ConversationId, "UnityUserId", "1", "Unity User 1"));
             healthScore = healthScore + 4;
         }
         Debug.Log("health score: " + healthScore);
     }
 
+    void loadLevel()
+    {
+        if (healthScore > 10)
+        {
+            Application.LoadLevel("Beach scene");
+        }
+        else
+        {
+            Application.LoadLevel("Cube-scene");
+        }
+    }
+
     // Use this for initialization
     void Start () {
-        Debug.Log("Starting.");
-        questionNumber = 1;
-        setQuestion(questionNumber);
-        questionNumber++;
+        Debug.Log("Starting1");
+        //questionNumber = 1;
+        //setQuestion(questionNumber);
+        //questionNumber++;
 
         //Initilise the ChatBot with the secret Key
         BotDirectLineManager.Initialize("acpdzbZb2Oc.cwA.TB0.6a3lFLDlLNV_RMvX4uB8sm9vGsbXaOU7BIA6N1uyiws");
@@ -202,17 +223,19 @@ public class Questions : MonoBehaviour {
 
         //Start the conversation.
         StartCoroutine(BotDirectLineManager.Instance.StartConversationCoroutine());
-
+        Debug.Log("Starting2");
     }
 
 	// Update is called once per frame
 	void Update () { 
         //HERE TO SIMULATE USER SELECTING OPTION AT THE MOMENT.
-        if (Input.GetKeyDown("space")){
-            print("space key was pressed");
-            //CHANGE 3RD OPTION TO THE OPTION SELECTED BY THE USER.
-            StartCoroutine(BotDirectLineManager.Instance.SendMessageCoroutine(
-                ConversationId, "UnityUserId", "1", "Unity User 1"));
+        //if (Input.GetKeyDown("space")){
+        if (Controller.GetHairTriggerUp()) {
+            CheckIfAnsweredQuestion();
+        }
+        if(questionNumber == 5)
+        {
+            loadLevel();
         }
     }
     

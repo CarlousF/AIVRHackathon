@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/scenes/home-scene.unity
+- path: Assets/scenes/Beach scene.unity
   isLoaded: 1
   isActive: 1
